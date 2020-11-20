@@ -5,10 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-    //Partical
-    public GameObject SpeedPartical;
-    bool IsInMaxSpeed;
-    bool IsntInMaxSpeed;
+   
 
     //Assingables
     public Transform playerCam;
@@ -53,8 +50,6 @@ public class PlayerMovement : MonoBehaviour {
 
     void Awake() {
         rb = GetComponent<Rigidbody>();
-        IsntInMaxSpeed = true;
-        IsInMaxSpeed = false;
     }
     
     void Start() {
@@ -65,13 +60,6 @@ public class PlayerMovement : MonoBehaviour {
     
     private void FixedUpdate() {
         Movement();
-        if (IsInMaxSpeed == true)
-        {
-            SpeedPartical.SetActive(true);
-        }
-        else {
-            SpeedPartical.SetActive(false);
-        }
     }
 
     private void Update() {
@@ -138,15 +126,7 @@ public class PlayerMovement : MonoBehaviour {
         if (x < 0 && xMag < -maxSpeed) x = 0;
         if (y > 0 && yMag > maxSpeed) y = 0;
         if (y < 0 && yMag < -maxSpeed) y = 0;
-        if (maxSpeed > 10)
-        {
-            IsInMaxSpeed = true;
-            IsntInMaxSpeed = false;
-        }
-        else {
-            IsInMaxSpeed = false;
-            IsntInMaxSpeed = true;
-        }
+       
 
         //Some multipliers
         float multiplier = 1f, multiplierV = 1f;
