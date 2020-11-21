@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 5640143764866150371}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -1.405}
-  m_LocalScale: {x: 10.889439, y: 10.889439, z: 13.122097}
+  m_LocalScale: {x: 16.586794, y: 16.586794, z: 19.98758}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -126,3 +126,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 10
+  HitParitical: {fileID: 5997179574511049578, guid: fcfaa15b9e8d7ed40ab91e9e3850ccf8, type: 3}
+  particalifetime: 2

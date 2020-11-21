@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GunShoot : MonoBehaviour
 {
+    //Partical
+    public GameObject MuzzleFlash;
+    public float lifetime;
+
     //Bullet GameObject
     public GameObject Bullet;
 
@@ -16,6 +20,7 @@ public class GunShoot : MonoBehaviour
     public int mag, bpt;
     public bool allowButtonHold;
     public int bulletleft, bulletshot;
+    public bool IsPistole, IsShotGun, IsAR;
 
     //Booleans
     public bool shooting, readytoshot, reloading;
@@ -55,6 +60,8 @@ public class GunShoot : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && bulletleft < mag && !reloading) Reload();
         //Automatically Reload When you run out of ammo
         if (readytoshot && shooting && !reloading && bulletleft <= 0) Reload();
+        //AAutomatically reloads the gun
+        if (bulletleft <= 0 && !reloading) Reload();
 
         //Shooting
         if (readytoshot && shooting && !reloading && bulletleft > 0) {
@@ -89,14 +96,29 @@ public class GunShoot : MonoBehaviour
         GameObject bullet = Instantiate(Bullet, shootingpoint.position, Quaternion.identity);
         //Rotating the bullet
         bullet.transform.forward = dws.normalized;
+        //Adding Paritical(Muzzle Flash)
+        GameObject partical = Instantiate(MuzzleFlash, shootingpoint.transform.position, Quaternion.identity);
         //Adding Force
         bullet.GetComponent<Rigidbody>().AddForce(dws.normalized * shootforce, ForceMode.Impulse);
         bullet.GetComponent<Rigidbody>().AddForce(fpscam.transform.up * upwardforce, ForceMode.Impulse);//Only for Bouncing Grenads
         //Adding Recoil
         PlayerRB.AddForce(-dws.normalized * recoil, ForceMode.Impulse);
-        
+        //Destorying The Pritical
+        Destroy(partical, lifetime);
+
         //Animation
-        ap.SetTrigger("Shot");
+        //Playing the animation that cooresponds to the weapon
+        if (IsPistole && !IsShotGun && !IsAR) {//This is the check if the player is holding a pistole
+            ap.SetTrigger("Shot");
+        }
+        if (!IsPistole && IsShotGun && !IsAR){//This is the check if the player is holding a ShotGun
+            ap.SetTrigger("ShotGun");
+        }
+        if (!IsPistole && !IsShotGun && IsAR){//This is the check if the player is holding a AR
+            ap.SetTrigger("Shot");
+        }
+
+        //Decreasing Bullet Left and Increasing BulletCount
         bulletleft--;
         bulletshot++;
 
