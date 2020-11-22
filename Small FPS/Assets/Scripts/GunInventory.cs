@@ -1,5 +1,6 @@
 ﻿//Some Idiot Making a Inventory For Guns
 using UnityEngine;
+using TMPro;
 
 public class GunInventory : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class GunInventory : MonoBehaviour
     public GunShoot GunScript;
     public Rigidbody rb;
     public BoxCollider coll;
+    public GameObject PickUpText;
+    public TextMeshPro PickupTextMessage;
 
     //Setup for the start
     private void Start()
@@ -30,6 +33,9 @@ public class GunInventory : MonoBehaviour
         //Setting up Private Variables
         rb = GetComponent<Rigidbody>();
         coll = GetComponent<BoxCollider>();
+        //Disablining The Pickuputext At The STart and renaming
+        PickUpText.SetActive(false);
+        PickupTextMessage.text = "Press (E) To Pickup";
         //----Stop
     }
 
@@ -38,7 +44,20 @@ public class GunInventory : MonoBehaviour
     {
         //Caculating the distance between player and gun
         Vector3 distance = player.position - transform.position;
-        
+
+        //Showing The PickupText If THe condition are met
+        if (!equiped && distance.magnitude <= pickuprange && !slotfull){
+            PickUpText.SetActive(true);
+            PickupTextMessage.text = "Press (E) To Pickup";
+        }
+        else if (!equiped && distance.magnitude <= pickuprange && slotfull){
+            PickUpText.SetActive(true);
+            PickupTextMessage.text = "You Cannot Carry \n Two Weapons At Once";
+        }
+        else {
+            PickUpText.SetActive(false);
+        }
+
         //Pickup is These Condition are met
         if (!equiped && distance.magnitude <= pickuprange && Input.GetKeyDown(KeyCode.E) && !slotfull){
             Pick();
